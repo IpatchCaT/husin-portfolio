@@ -415,6 +415,21 @@
     overflow: hidden;
   }
   .project-card:hover { transform: translateY(-4px); border-color: rgba(0,153,255,0.3); }
+  .project-card--featured { border-color: rgba(0,229,160,0.2); }
+  .project-card--featured:hover { border-color: rgba(0,229,160,0.5); }
+  .project-featured-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0a0e14;
+    background: #00e5a0;
+    padding: 3px 10px;
+    margin-bottom: 0.85rem;
+  }
+  .accent-tag { border-color: rgba(0,229,160,0.4) !important; color: #00e5a0 !important; }
   .project-num {
     font-family: var(--font-mono);
     font-size: 48px;
@@ -602,42 +617,13 @@
     z-index: 0;
   }
 
-  /* PROOF / UPLOAD SYSTEM */
-  .proof-section {
+  /* PROJECT GALLERY */
+  .gallery-section {
     margin-top: 1.25rem;
     border-top: 1px solid var(--border);
     padding-top: 1rem;
-    /* upload zone hidden from public by default */
   }
-  .upload-zone { display: none; }
-  body.owner-mode .upload-zone { display: block; }
-
-  /* OWNER SYSTEM */
-  .owner-btn { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; padding:5px 12px; background:transparent; border:1px solid transparent; color:transparent; cursor:pointer; transition:all 0.3s; }
-  .owner-btn:hover { border-color:rgba(0,229,160,0.25); color:#7a8499; }
-  body.owner-mode .owner-btn { border-color:#00e5a0; color:#00e5a0; }
-  .owner-badge { display:none; font-family:'DM Mono',monospace; font-size:10px; color:#00e5a0; border:1px solid rgba(0,229,160,0.3); padding:2px 8px; letter-spacing:0.08em; }
-  body.owner-mode .owner-badge { display:inline-block; }
-  .remove-btn { position:absolute; top:3px; right:3px; width:18px; height:18px; background:rgba(10,14,20,0.85); border:1px solid rgba(255,255,255,0.1); color:#7a8499; font-size:10px; cursor:pointer; display:none; align-items:center; justify-content:center; line-height:1; padding:0; }
-  body.owner-mode .attachment-thumb:hover .remove-btn { display:flex; }
-  .remove-btn:hover { color:#ff5555 !important; border-color:#ff5555 !important; }
-
-  /* PASSWORD MODAL */
-  .pw-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(5,8,12,0.92); align-items:center; justify-content:center; }
-  .pw-overlay.open { display:flex; }
-  .pw-modal { background:#111620; border:1px solid rgba(0,229,160,0.15); padding:2.5rem; width:100%; max-width:360px; position:relative; }
-  .pw-modal::before { content:''; position:absolute; top:-1px; left:0; height:2px; width:50%; background:linear-gradient(90deg,#00e5a0,transparent); }
-  .pw-title { font-family:'DM Mono',monospace; font-size:12px; color:#00e5a0; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:1.5rem; }
-  .pw-input { width:100%; background:#181f2e; border:1px solid rgba(255,255,255,0.08); color:#e8edf5; font-family:'DM Mono',monospace; font-size:16px; padding:10px 14px; outline:none; letter-spacing:0.1em; margin-bottom:1rem; box-sizing:border-box; transition:border-color 0.2s; }
-  .pw-input:focus { border-color:#00e5a0; }
-  .pw-input.shake { animation:shake 0.4s ease; border-color:#ff4444; }
-  .pw-btn { width:100%; background:#00e5a0; color:#0a0e14; font-family:'DM Mono',monospace; font-size:13px; font-weight:700; letter-spacing:0.1em; padding:10px; border:none; cursor:pointer; text-transform:uppercase; transition:opacity 0.2s; }
-  .pw-btn:hover { opacity:0.85; }
-  .pw-err { font-family:'DM Mono',monospace; font-size:11px; color:#ff4444; margin-top:8px; display:none; letter-spacing:0.06em; }
-  .pw-cancel { display:block; text-align:center; margin-top:1rem; font-family:'DM Mono',monospace; font-size:11px; color:#7a8499; cursor:pointer; background:none; border:none; width:100%; transition:color 0.2s; letter-spacing:0.06em; }
-  .pw-cancel:hover { color:#e8edf5; }
-  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
-  .proof-label {
+  .gallery-label {
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--muted);
@@ -648,142 +634,41 @@
     align-items: center;
     gap: 8px;
   }
-  .proof-label::before { content: '//'; color: var(--accent); }
-  .upload-zone {
-    border: 1px dashed rgba(0,229,160,0.25);
-    padding: 1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-  }
-  .upload-zone:hover { border-color: var(--accent); background: rgba(0,229,160,0.03); }
-  .upload-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-  .upload-zone-text {
-    font-size: 12px;
-    color: var(--muted);
-    pointer-events: none;
-  }
-  .upload-zone-text span { color: var(--accent); }
-  .attachments-grid {
+  .gallery-label::before { content: "//"; color: var(--accent); }
+  .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 8px;
-    margin-top: 0.75rem;
   }
-  .attachment-thumb {
-    position: relative;
+  .gallery-thumb {
     aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
     background: var(--surface2);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color 0.2s;
   }
-  .attachment-thumb:hover { border-color: var(--accent); }
-  .attachment-thumb img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .attachment-thumb .pdf-icon {
-    width: 100%; height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-  .pdf-icon-sym {
-    font-size: 22px;
-    line-height: 1;
-  }
-  .pdf-icon-name {
+  .gallery-thumb:hover { border-color: var(--accent); transform: scale(1.03); }
+  .gallery-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .gallery-empty {
     font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--muted);
-    text-align: center;
-    padding: 0 4px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    text-align: center;
-  }
-  .attachment-thumb .remove-btn {
-    position: absolute;
-    top: 3px; right: 3px;
-    width: 18px; height: 18px;
-    background: rgba(10,14,20,0.85);
-    border: 1px solid var(--border);
-    color: var(--muted);
     font-size: 11px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .attachment-thumb:hover .remove-btn { opacity: 1; }
-  .remove-btn:hover { color: #ff5555 !important; border-color: #ff5555 !important; }
-
-  /* LIGHTBOX */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    background: rgba(5,8,12,0.95);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 2rem;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox-img {
-    max-width: 90vw;
-    max-height: 80vh;
-    object-fit: contain;
-    border: 1px solid var(--border);
-  }
-  .lightbox-close {
-    position: fixed;
-    top: 1.5rem; right: 1.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 18px;
-    width: 40px; height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    transition: border-color 0.2s;
-  }
-  .lightbox-close:hover { border-color: var(--accent); color: var(--accent); }
-  .lightbox-caption {
-    margin-top: 1rem;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--muted);
+    color: rgba(122,132,153,0.4);
     letter-spacing: 0.06em;
+    font-style: italic;
   }
-  .attachment-count {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    margin-left: auto;
-  }
+
+  /* GALLERY & LIGHTBOX */
+  .gallery-thumb { position: relative; }
+  .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(5,8,12,0.96); align-items:center; justify-content:center; flex-direction:column; padding:2rem; }
+  .lightbox.open { display:flex; }
+  .lightbox-img { max-width:90vw; max-height:82vh; object-fit:contain; border:1px solid var(--border); }
+  .lightbox-close { position:fixed; top:1.5rem; right:1.5rem; background:var(--surface); border:1px solid var(--border); color:var(--text); font-size:16px; width:40px; height:40px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); transition:border-color 0.2s; }
+  .lightbox-close:hover { border-color:var(--accent); color:var(--accent); }
+  .lightbox-nav { display:flex; gap:1rem; margin-top:1rem; }
+  .lightbox-nav button { background:var(--surface); border:1px solid var(--border); color:var(--muted); font-family:var(--font-mono); font-size:13px; padding:6px 16px; cursor:pointer; transition:all 0.2s; }
+  .lightbox-nav button:hover { border-color:var(--accent); color:var(--accent); }
+  .lightbox-caption { font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-top:0.75rem; letter-spacing:0.06em; }
 </style>
 </head>
 <body>
@@ -797,10 +682,6 @@
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <span class="owner-badge">OWNER</span>
-    <button class="owner-btn" onclick="openPwModal()" title="Owner login">&#9679;&#9679;&#9679;</button>
-  </div>
 </nav>
 
 <!-- HERO -->
@@ -842,7 +723,7 @@
         <div class="section-label" style="margin-bottom:0.75rem; font-size:11px;">Core Technologies</div>
         <div class="skill-badges">
           <span class="badge accent">Robotics</span>
-          <span class="badge accent">ROS</span>
+          <span class="badge accent">3D CAD</span>
           <span class="badge blue">Python</span>
           <span class="badge blue">C/C++</span>
           <span class="badge">Node-RED</span>
@@ -1028,13 +909,14 @@
         <span class="tag">Feedback Control</span>
         <span class="tag">Embedded C</span>
       </div>
-      <div class="proof-section">
-        <div class="proof-label">Proof &amp; Attachments <span class="attachment-count" id="count-p1"></span></div>
-        <div class="upload-zone" id="zone-p1">
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="handleUpload(this,'p1')">
-          <div class="upload-zone-text">Drop files or <span>click to upload</span> · Images, PDF, Docs</div>
+      <div class="gallery-section" id="section-p1">
+        <div class="gallery-label">Project Proof — Mecanum Robot</div>
+        <div class="gallery-grid" id="grid-p1">
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/mr.1.png','Mecanum Robot — 1','grid-p1',0)"><img src="images/p1/mr.1.png" alt="Mecanum Robot 1" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/mr2.jpg','Mecanum Robot — 2','grid-p1',1)"><img src="images/p1/mr2.jpg" alt="Mecanum Robot 2" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/mr4.png','Mecanum Robot — 3','grid-p1',2)"><img src="images/p1/mr4.png" alt="Mecanum Robot 3" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/mr5.jpg','Mecanum Robot — 4','grid-p1',3)"><img src="images/p1/mr5.jpg" alt="Mecanum Robot 4" loading="lazy"></div>
         </div>
-        <div class="attachments-grid" id="grid-p1"></div>
       </div>
     </div>
 
@@ -1048,13 +930,20 @@
         <span class="tag">Fabrication</span>
         <span class="tag">SolidWorks</span>
       </div>
-      <div class="proof-section">
-        <div class="proof-label">Proof &amp; Attachments <span class="attachment-count" id="count-p2"></span></div>
-        <div class="upload-zone" id="zone-p2">
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="handleUpload(this,'p2')">
-          <div class="upload-zone-text">Drop files or <span>click to upload</span> · Images, PDF, Docs</div>
+      <div class="gallery-section" id="section-p2">
+        <div class="gallery-label">Project Proof — Combat Robot</div>
+        <div class="gallery-grid" id="grid-p2">
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr1.jpg','Combat Robot — 1','grid-p2',0)"><img src="images/p1/cr1.jpg" alt="Combat Robot 1" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr2.jpg','Combat Robot — 2','grid-p2',1)"><img src="images/p1/cr2.jpg" alt="Combat Robot 2" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr3.jpg','Combat Robot — 3','grid-p2',2)"><img src="images/p1/cr3.jpg" alt="Combat Robot 3" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr4.jpg','Combat Robot — 4','grid-p2',3)"><img src="images/p1/cr4.jpg" alt="Combat Robot 4" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr5.jpg','Combat Robot — 5','grid-p2',4)"><img src="images/p1/cr5.jpg" alt="Combat Robot 5" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr6.jpg','Combat Robot — 6','grid-p2',5)"><img src="images/p1/cr6.jpg" alt="Combat Robot 6" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr7.jpg','Combat Robot — 7','grid-p2',6)"><img src="images/p1/cr7.jpg" alt="Combat Robot 7" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr8.jpg','Combat Robot — 8','grid-p2',7)"><img src="images/p1/cr8.jpg" alt="Combat Robot 8" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr9.jpg','Combat Robot — 9','grid-p2',8)"><img src="images/p1/cr9.jpg" alt="Combat Robot 9" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/cr10.jpg','Combat Robot — 10','grid-p2',9)"><img src="images/p1/cr10.jpg" alt="Combat Robot 10" loading="lazy"></div>
         </div>
-        <div class="attachments-grid" id="grid-p2"></div>
       </div>
     </div>
 
@@ -1068,13 +957,27 @@
         <span class="tag">Sensor Integration</span>
         <span class="tag">Database</span>
       </div>
-      <div class="proof-section">
-        <div class="proof-label">Proof &amp; Attachments <span class="attachment-count" id="count-p3"></span></div>
-        <div class="upload-zone" id="zone-p3">
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="handleUpload(this,'p3')">
-          <div class="upload-zone-text">Drop files or <span>click to upload</span> · Images, PDF, Docs</div>
+      <div class="gallery-section" id="section-p3">
+        <div class="gallery-label">Project Proof — TerraSens IoT</div>
+        <div class="gallery-grid" id="grid-p3">
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr.jpg','TerraSens — 1','grid-p3',0)"><img src="images/p1/tr.jpg" alt="TerraSens 1" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr1.jpg','TerraSens — 2','grid-p3',1)"><img src="images/p1/tr1.jpg" alt="TerraSens 2" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr2.jpg','TerraSens — 3','grid-p3',2)"><img src="images/p1/tr2.jpg" alt="TerraSens 3" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr3.jpg','TerraSens — 4','grid-p3',3)"><img src="images/p1/tr3.jpg" alt="TerraSens 4" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr4.jpg','TerraSens — 5','grid-p3',4)"><img src="images/p1/tr4.jpg" alt="TerraSens 5" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr5.jpg','TerraSens — 6','grid-p3',5)"><img src="images/p1/tr5.jpg" alt="TerraSens 6" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr6.jpg','TerraSens — 7','grid-p3',6)"><img src="images/p1/tr6.jpg" alt="TerraSens 7" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr7.jpg','TerraSens — 8','grid-p3',7)"><img src="images/p1/tr7.jpg" alt="TerraSens 8" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr8.jpg','TerraSens — 9','grid-p3',8)"><img src="images/p1/tr8.jpg" alt="TerraSens 9" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr9.jpg','TerraSens — 10','grid-p3',9)"><img src="images/p1/tr9.jpg" alt="TerraSens 10" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr10.jpg','TerraSens — 11','grid-p3',10)"><img src="images/p1/tr10.jpg" alt="TerraSens 11" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr11.jpg','TerraSens — 12','grid-p3',11)"><img src="images/p1/tr11.jpg" alt="TerraSens 12" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr12.jpg','TerraSens — 13','grid-p3',12)"><img src="images/p1/tr12.jpg" alt="TerraSens 13" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr13.jpg','TerraSens — 14','grid-p3',13)"><img src="images/p1/tr13.jpg" alt="TerraSens 14" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr14.jpg','TerraSens — 15','grid-p3',14)"><img src="images/p1/tr14.jpg" alt="TerraSens 15" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr16.jpg','TerraSens — 16','grid-p3',15)"><img src="images/p1/tr16.jpg" alt="TerraSens 16" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tr17.jpg','TerraSens — 17','grid-p3',16)"><img src="images/p1/tr17.jpg" alt="TerraSens 17" loading="lazy"></div>
         </div>
-        <div class="attachments-grid" id="grid-p3"></div>
       </div>
     </div>
 
@@ -1088,13 +991,17 @@
         <span class="tag">Prototyping</span>
         <span class="tag">Competition</span>
       </div>
-      <div class="proof-section">
-        <div class="proof-label">Proof &amp; Attachments <span class="attachment-count" id="count-p4"></span></div>
-        <div class="upload-zone" id="zone-p4">
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="handleUpload(this,'p4')">
-          <div class="upload-zone-text">Drop files or <span>click to upload</span> · Images, PDF, Docs</div>
+      <div class="gallery-section" id="section-p4">
+        <div class="gallery-label">Project Proof — Robocon 2025</div>
+        <div class="gallery-grid" id="grid-p4">
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb1.jpg','Robocon 2025 — 1','grid-p4',0)"><img src="images/p1/rb1.jpg" alt="Robocon 2025 1" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb2.jpg','Robocon 2025 — 2','grid-p4',1)"><img src="images/p1/rb2.jpg" alt="Robocon 2025 2" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb3.jpg','Robocon 2025 — 3','grid-p4',2)"><img src="images/p1/rb3.jpg" alt="Robocon 2025 3" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb4.jpg','Robocon 2025 — 4','grid-p4',3)"><img src="images/p1/rb4.jpg" alt="Robocon 2025 4" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb5.jpg','Robocon 2025 — 5','grid-p4',4)"><img src="images/p1/rb5.jpg" alt="Robocon 2025 5" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb6.jpg','Robocon 2025 — 6','grid-p4',5)"><img src="images/p1/rb6.jpg" alt="Robocon 2025 6" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/rb7.jpg','Robocon 2025 — 7','grid-p4',6)"><img src="images/p1/rb7.jpg" alt="Robocon 2025 7" loading="lazy"></div>
         </div>
-        <div class="attachments-grid" id="grid-p4"></div>
       </div>
     </div>
 
@@ -1108,13 +1015,54 @@
         <span class="tag">Electrical Wiring</span>
         <span class="tag">Calibration</span>
       </div>
-      <div class="proof-section">
-        <div class="proof-label">Proof &amp; Attachments <span class="attachment-count" id="count-p5"></span></div>
-        <div class="upload-zone" id="zone-p5">
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="handleUpload(this,'p5')">
-          <div class="upload-zone-text">Drop files or <span>click to upload</span> · Images, PDF, Docs</div>
+      <div class="gallery-section" id="section-p5">
+        <div class="gallery-label">Project Proof — Robotic Arm Commissioning</div>
+        <div class="gallery-grid" id="grid-p5">
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.jpg','TXMR Internship — 1','grid-p5',0)"><img src="images/p1/tx.jpg" alt="TXMR Internship 1" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.1.jpg','TXMR Internship — 2','grid-p5',1)"><img src="images/p1/tx.1.jpg" alt="TXMR Internship 2" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.2.jpg','TXMR Internship — 3','grid-p5',2)"><img src="images/p1/tx.2.jpg" alt="TXMR Internship 3" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.3.jpg','TXMR Internship — 4','grid-p5',3)"><img src="images/p1/tx.3.jpg" alt="TXMR Internship 4" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.4.jpg','TXMR Internship — 5','grid-p5',4)"><img src="images/p1/tx.4.jpg" alt="TXMR Internship 5" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.5.jpg','TXMR Internship — 6','grid-p5',5)"><img src="images/p1/tx.5.jpg" alt="TXMR Internship 6" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.6.jpg','TXMR Internship — 7','grid-p5',6)"><img src="images/p1/tx.6.jpg" alt="TXMR Internship 7" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.7.jpg','TXMR Internship — 8','grid-p5',7)"><img src="images/p1/tx.7.jpg" alt="TXMR Internship 8" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.8.jpg','TXMR Internship — 9','grid-p5',8)"><img src="images/p1/tx.8.jpg" alt="TXMR Internship 9" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.9.jpg','TXMR Internship — 10','grid-p5',9)"><img src="images/p1/tx.9.jpg" alt="TXMR Internship 10" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx.10.jpg','TXMR Internship — 11','grid-p5',10)"><img src="images/p1/tx.10.jpg" alt="TXMR Internship 11" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx11.jpg','TXMR Internship — 12','grid-p5',11)"><img src="images/p1/tx11.jpg" alt="TXMR Internship 12" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx13.jpg','TXMR Internship — 13','grid-p5',12)"><img src="images/p1/tx13.jpg" alt="TXMR Internship 13" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx14.jpg','TXMR Internship — 14','grid-p5',13)"><img src="images/p1/tx14.jpg" alt="TXMR Internship 14" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx16.jpg','TXMR Internship — 15','grid-p5',14)"><img src="images/p1/tx16.jpg" alt="TXMR Internship 15" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx17.jpg','TXMR Internship — 16','grid-p5',15)"><img src="images/p1/tx17.jpg" alt="TXMR Internship 16" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx18.jpg','TXMR Internship — 17','grid-p5',16)"><img src="images/p1/tx18.jpg" alt="TXMR Internship 17" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx19.jpg','TXMR Internship — 18','grid-p5',17)"><img src="images/p1/tx19.jpg" alt="TXMR Internship 18" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/tx20.jpg','TXMR Internship — 19','grid-p5',18)"><img src="images/p1/tx20.jpg" alt="TXMR Internship 19" loading="lazy"></div>
         </div>
-        <div class="attachments-grid" id="grid-p5"></div>
+      </div>
+    </div>
+
+    <div class="project-card project-card--featured">
+      <div class="project-num">06</div>
+      <div class="project-featured-badge">Achievement</div>
+      <h3>Technical Consultant &amp; Fabrication Lead — International Robot Olympiad (IRO) Workshop 2025</h3>
+      <p class="project-desc">Served as technical consultant and lead fabricator, providing expert mentorship on an AI-integrated automated sorting dustbin by optimising its conveyor mechanics and implementing complex sensor-wiring architectures for real-time waste classification. Simultaneously spearheaded the mechanical design and component integration for an autonomous lunar exploration robot, ensuring structural integrity and precise hardware arrangement for high-performance mobility.</p>
+      <div class="project-tags">
+        <span class="tag accent-tag">IRO 2025</span>
+        <span class="tag">AI Integration</span>
+        <span class="tag">Sensor Wiring</span>
+        <span class="tag">Conveyor Design</span>
+        <span class="tag">Lunar Robot</span>
+        <span class="tag">Mentorship</span>
+      </div>
+      <div class="gallery-section" id="section-p6">
+        <div class="gallery-label">Project Proof — IRO Workshop 2025</div>
+        <div class="gallery-grid" id="grid-p6">
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/iro1.jpg','IRO Workshop — 1','grid-p6',0)"><img src="images/p1/iro1.jpg" alt="IRO Workshop 1" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/iro2.jpg','IRO Workshop — 2','grid-p6',1)"><img src="images/p1/iro2.jpg" alt="IRO Workshop 2" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/iro3.jpg','IRO Workshop — 3','grid-p6',2)"><img src="images/p1/iro3.jpg" alt="IRO Workshop 3" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/iro4.jpg','IRO Workshop — 4','grid-p6',3)"><img src="images/p1/iro4.jpg" alt="IRO Workshop 4" loading="lazy"></div>
+          <div class="gallery-thumb" onclick="openLightbox('images/p1/iro5.jpg','IRO Workshop — 5','grid-p6',4)"><img src="images/p1/iro5.jpg" alt="IRO Workshop 5" loading="lazy"></div>
+        </div>
       </div>
     </div>
 
@@ -1179,259 +1127,72 @@
   Designed &amp; built for <span>Husin Bin Hamdan</span> · Automation &amp; Robotics Engineer · <span>2026</span>
 </footer>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <button class="lightbox-close" onclick="closeLightbox(event)">X</button>
-  <img class="lightbox-img" id="lightbox-img" src="" alt="" style="display:none;">
-  <div id="lightbox-file" style="display:none; text-align:center;">
-    <div id="lightbox-file-ext" style="font-family:'DM Mono',monospace; font-size:36px; font-weight:600; color:#00e5a0; letter-spacing:0.1em; margin-bottom:0.75rem;"></div>
-    <div id="lightbox-file-name" style="font-family:'DM Mono',monospace; font-size:14px; color:#e8edf5; margin-bottom:1.5rem; max-width:400px; word-break:break-all;"></div>
-    <a id="lightbox-file-dl" href="#" download style="font-family:'DM Mono',monospace; font-size:13px; color:#00e5a0; border:1px solid rgba(0,229,160,0.35); padding:10px 28px; text-decoration:none; display:inline-block; letter-spacing:0.06em; transition:background 0.2s;" onmouseover="this.style.background='rgba(0,229,160,0.08)'" onmouseout="this.style.background='transparent'">DOWNLOAD FILE</a>
-  </div>
-  <div class="lightbox-caption" id="lightbox-caption"></div>
-</div>
-
-<!-- TOAST -->
-<div id="toast" style="position:fixed; bottom:2rem; right:2rem; background:#111620; border:1px solid rgba(0,229,160,0.3); color:#00e5a0; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.06em; padding:10px 20px; z-index:1000; opacity:0; transform:translateY(8px); transition:opacity 0.3s, transform 0.3s; pointer-events:none;"></div>
-<style>
-  #toast.show { opacity:1; transform:translateY(0); }
-  .upload-zone.drag-over { border-color:#00e5a0; background:rgba(0,229,160,0.06); }
-</style>
-
 <script>
-// ─────────────────────────────────────────────
-//  CONFIG — your Cloudinary credentials
-// ─────────────────────────────────────────────
-var CLOUD_NAME    = 'dsrqg2olf';
-var UPLOAD_PRESET = 'portfolio_upload';
+// ── Gallery Lightbox (GitHub-hosted images, no localStorage) ────────────────
+var _lbImages = [];
+var _lbIndex  = 0;
 
-// ─────────────────────────────────────────────
-//  STORAGE KEY — Cloudinary URLs saved here
-//  localStorage stores PUBLIC URLs so any
-//  browser that loads the page can show images.
-//  Public visitors load URLs → fetch from CDN.
-// ─────────────────────────────────────────────
-var STORE_KEY = 'hbh_portfolio_v2';
-
-var cache = { p1:[], p2:[], p3:[], p4:[], p5:[] };
-
-// ─────────────────────────────────────────────
-//  LOAD saved URLs on page start (everyone)
-// ─────────────────────────────────────────────
-function loadData() {
-  try {
-    var raw = localStorage.getItem(STORE_KEY);
-    if (raw) cache = JSON.parse(raw);
-  } catch(e) {}
-  ['p1','p2','p3','p4','p5'].forEach(renderGrid);
-}
-
-function saveData() {
-  localStorage.setItem(STORE_KEY, JSON.stringify(cache));
-}
-
-// ─────────────────────────────────────────────
-//  UPLOAD — owner only (password protected)
-//  Sends file to Cloudinary, gets back a public
-//  HTTPS URL that anyone in the world can load.
-// ─────────────────────────────────────────────
-async function handleUpload(input, pid) {
-  var files = Array.from(input.files);
-  for (var i = 0; i < files.length; i++) {
-    var file = files[i];
-    var fd   = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    try {
-      showToast('Uploading ' + file.name + '...');
-      var res  = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/auto/upload', { method:'POST', body:fd });
-      var data = await res.json();
-      if (!data.secure_url) throw new Error('No URL returned');
-      var rec = { id: Date.now() + i, pid:pid, name:file.name, type:file.type, url:data.secure_url };
-      cache[pid].push(rec);
-      saveData();
-      renderGrid(pid);
-      showToast('Saved: ' + file.name);
-    } catch(err) {
-      console.error(err);
-      showToast('Upload failed — check preset settings');
-    }
+function openLightbox(src, caption, gridId, index) {
+  var grid = document.getElementById(gridId);
+  if (grid) {
+    _lbImages = Array.from(grid.querySelectorAll('.gallery-thumb')).map(function(t) {
+      return { src: t.querySelector('img').src, caption: t.querySelector('img').alt };
+    });
+  } else {
+    _lbImages = [{ src: src, caption: caption }];
   }
-  input.value = '';
-}
-
-// ─────────────────────────────────────────────
-//  DELETE — owner only
-// ─────────────────────────────────────────────
-function deleteFile(pid, id) {
-  cache[pid] = cache[pid].filter(function(f){ return f.id !== id; });
-  saveData();
-  renderGrid(pid);
-  showToast('File removed');
-}
-
-// ─────────────────────────────────────────────
-//  RENDER thumbnails — runs for everyone
-//  Public sees images loaded from Cloudinary CDN
-// ─────────────────────────────────────────────
-function renderGrid(pid) {
-  var grid   = document.getElementById('grid-' + pid);
-  var count  = document.getElementById('count-' + pid);
-  var files  = cache[pid] || [];
-  var isOwner = document.body.classList.contains('owner-mode');
-  count.textContent = files.length > 0 ? files.length + ' file' + (files.length > 1 ? 's' : '') : '';
-  grid.innerHTML = '';
-  files.forEach(function(f) {
-    var thumb = document.createElement('div');
-    thumb.className = 'attachment-thumb';
-    thumb.style.position = 'relative';
-    var isImage = f.type && f.type.startsWith('image/');
-    if (isImage) {
-      var img = document.createElement('img');
-      img.src = f.url; img.alt = f.name;
-      img.onclick = function(){ openLightboxImage(f.url, f.name); };
-      thumb.appendChild(img);
-    } else {
-      var ext  = f.name.split('.').pop().toUpperCase();
-      var icon = document.createElement('div');
-      icon.className = 'pdf-icon';
-      icon.style.cursor = 'pointer';
-      icon.innerHTML = '<div class="pdf-icon-sym" style="font-family:monospace;font-size:13px;color:#00e5a0;font-weight:700;">' + ext + '</div><div class="pdf-icon-name">' + f.name + '</div>';
-      icon.onclick = function(){ window.open(f.url, '_blank'); };
-      thumb.appendChild(icon);
-    }
-    if (isOwner) {
-      var rm = document.createElement('button');
-      rm.className = 'remove-btn';
-      rm.textContent = 'x';
-      rm.title = 'Remove';
-      (function(fpid, fid){ rm.onclick = function(e){ e.stopPropagation(); deleteFile(fpid, fid); }; })(pid, f.id);
-      thumb.appendChild(rm);
-    }
-    grid.appendChild(thumb);
-  });
-}
-
-// ─────────────────────────────────────────────
-//  LIGHTBOX
-// ─────────────────────────────────────────────
-function openLightboxImage(url, name) {
-  document.getElementById('lightbox-img').src = url;
-  document.getElementById('lightbox-img').style.display = 'block';
-  document.getElementById('lightbox-file').style.display = 'none';
-  document.getElementById('lightbox-caption').textContent = name;
+  _lbIndex = index;
+  showLightboxSlide();
   document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showLightboxSlide() {
+  var frame = _lbImages[_lbIndex];
+  document.getElementById('lb-img').src = frame.src;
+  document.getElementById('lb-caption').textContent =
+    (_lbIndex + 1) + ' / ' + _lbImages.length + '  —  ' + frame.caption;
+}
+
+function lbNext() {
+  if (_lbImages.length > 1) { _lbIndex = (_lbIndex + 1) % _lbImages.length; showLightboxSlide(); }
+}
+function lbPrev() {
+  if (_lbImages.length > 1) { _lbIndex = (_lbIndex - 1 + _lbImages.length) % _lbImages.length; showLightboxSlide(); }
 }
 
 function closeLightbox(e) {
   var lb = document.getElementById('lightbox');
   if (!e || e.target === lb || (e.currentTarget && e.currentTarget.classList.contains('lightbox-close'))) {
     lb.classList.remove('open');
-    document.getElementById('lightbox-img').src = '';
+    document.getElementById('lb-img').src = '';
+    document.body.style.overflow = '';
   }
 }
 
-// ─────────────────────────────────────────────
-//  TOAST
-// ─────────────────────────────────────────────
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(function(){ t.classList.remove('show'); }, 2800);
-}
-
-// ─────────────────────────────────────────────
-//  OWNER PASSWORD (SHA-256 hashed)
-//  Default password: HusinHBH2026
-//  To change: go to https://emn178.github.io/online-tools/sha256.html
-//  hash your new password and replace OWNER_HASH below
-// ─────────────────────────────────────────────
-var OWNER_HASH = '';
-async function sha256(msg) {
-  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
-}
-sha256('HusinHBH2026').then(function(h){ OWNER_HASH = h; });
-
-function openPwModal() {
-  if (document.body.classList.contains('owner-mode')) {
-    document.body.classList.remove('owner-mode');
-    sessionStorage.removeItem('hbh_owner');
-    ['p1','p2','p3','p4','p5'].forEach(renderGrid);
-    showToast('Upload mode locked');
-    return;
-  }
-  document.getElementById('pw-overlay').classList.add('open');
-  setTimeout(function(){ document.getElementById('pw-input').focus(); }, 80);
-}
-
-function closePwModal() {
-  document.getElementById('pw-overlay').classList.remove('open');
-  document.getElementById('pw-input').value = '';
-  document.getElementById('pw-input').classList.remove('shake');
-  document.getElementById('pw-err').style.display = 'none';
-}
-
-async function checkPw() {
-  var val  = document.getElementById('pw-input').value;
-  var hash = await sha256(val);
-  if (hash === OWNER_HASH) {
-    document.body.classList.add('owner-mode');
-    sessionStorage.setItem('hbh_owner', '1');
-    closePwModal();
-    ['p1','p2','p3','p4','p5'].forEach(renderGrid);
-    showToast('Upload mode unlocked');
-  } else {
-    var inp = document.getElementById('pw-input');
-    inp.classList.remove('shake');
-    void inp.offsetWidth;
-    inp.classList.add('shake');
-    document.getElementById('pw-err').style.display = 'block';
-    inp.value = '';
-  }
-}
-
-// Restore owner mode in same browser session
-if (sessionStorage.getItem('hbh_owner') === '1') {
-  document.addEventListener('DOMContentLoaded', function(){
-    document.body.classList.add('owner-mode');
-    ['p1','p2','p3','p4','p5'].forEach(renderGrid);
-  });
-}
-
-// ─────────────────────────────────────────────
-//  DRAG & DROP + INIT
-// ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.upload-zone').forEach(function(zone) {
-    zone.addEventListener('dragover',  function(e){ e.preventDefault(); zone.classList.add('drag-over'); });
-    zone.addEventListener('dragleave', function()  { zone.classList.remove('drag-over'); });
-    zone.addEventListener('drop', function(e) {
-      e.preventDefault(); zone.classList.remove('drag-over');
-      var pid = zone.id.replace('zone-', '');
-      handleUpload({ files: e.dataTransfer.files, value: '' }, pid);
-    });
-  });
-  loadData();
+  var lb = document.getElementById('lightbox');
+  if (lb) lb.addEventListener('click', function(e) { if (e.target === this) closeLightbox(e); });
 });
 
-document.addEventListener('keydown', function(e){
-  if (e.key === 'Escape'){ closePwModal(); closeLightbox(); }
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape')      closeLightbox();
+  if (e.key === 'ArrowRight')  lbNext();
+  if (e.key === 'ArrowLeft')   lbPrev();
 });
 </script>
 
-<!-- PASSWORD MODAL -->
-<div class="pw-overlay" id="pw-overlay">
-  <div class="pw-modal">
-    <div class="pw-title">// Owner Access</div>
-    <input class="pw-input" type="password" id="pw-input" placeholder="Enter password" autocomplete="off" onkeydown="if(event.key==='Enter')checkPw()">
-    <button class="pw-btn" onclick="checkPw()">Unlock Upload Mode</button>
-    <div class="pw-err" id="pw-err">Incorrect password — try again.</div>
-    <button class="pw-cancel" onclick="closePwModal()">Cancel</button>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+  <img id="lb-img" class="lightbox-img" src="" alt="">
+  <div class="lightbox-nav">
+    <button onclick="lbPrev()">&#8592; Prev</button>
+    <button onclick="lbNext()">Next &#8594;</button>
   </div>
+  <div class="lightbox-caption" id="lb-caption"></div>
 </div>
+
 
 </body>
 </html>
